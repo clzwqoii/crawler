@@ -8,8 +8,7 @@ class Reptilian(tornado.web.RequestHandler):
     def post(self):
         url = self.get_argument('url')
         fileName = self.get_argument('fileName')
-        cdnUrl = self.get_argument('cdnUrl')
-        downloadImgResult = downloadImg.downloadImg(url, cdnUrl, fileName)
+        downloadImgResult = downloadImg.downloadImg(url, fileName)
         if downloadImgResult:
             self.write('数据获取很成功')
         else:

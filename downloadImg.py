@@ -27,18 +27,16 @@ def open_url(url):
 """
 获取html中的img图片
 """
-def downImg(html, url, cdnHttp = '') :
+def downImg(html, url) :
     imgRes = re.findall(r'<img src="(.*?)"', html)
     urlHander = re.findall(r'htt[a-z]+://.*?/', url)
     if not urlHander:
         urlHander = url
     else:
         urlHander = urlHander[0]
-    cdnHander = cdnHttp
     for img in imgRes:
-        if cdnHander:
-            if img.find(cdnHander) == -1:
-                img = urlHander + img
+        if img.find('http') == -1:
+            img = urlHander + img
         if not re.findall(r'\.png|\.jpg|\.bpm|\.gif|\.svg', img):
             continue
         print('download image:%s' % img)
@@ -54,7 +52,7 @@ def downImg(html, url, cdnHttp = '') :
     `cdnHttp`  指定图片cdn, 只填写前面部分 如:http://cdn.***.com
     `fileName`  保存文件名称可为空
 """
-def downloadImg(url, cdnHttp='', fileName=''):
+def downloadImg(url, fileName=''):
     if url == False:
         return
     if not fileName:
@@ -68,7 +66,7 @@ def downloadImg(url, cdnHttp='', fileName=''):
     try:
         driver.get(url)
         html = driver.page_source  # 把页面打印出来
-        downImg(html, url, cdnHttp)
+        downImg(html, url)
         driver.quit()
         return True
     except:
